@@ -20,7 +20,7 @@ namespace Orbits
                 {
                     if(GCD(factor, scale.n) == 1)
                     {
-                        Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
+                        //Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
                         Transform t = new Transform(factor, term);
                         transforms.Add(t);
                     }

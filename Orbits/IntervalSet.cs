@@ -86,5 +86,19 @@ namespace Orbits
             return result;
         }
 
+        public bool Complement(IntervalSet other)
+        { 
+            for (int i = 0; i < scale.n; i++)
+            {
+                if(intervals[i] == other.intervals[i])
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
     }
 }
