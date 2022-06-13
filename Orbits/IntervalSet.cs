@@ -36,5 +36,55 @@ namespace Orbits
             return result + " }" ;
         }
 
+        public IntervalSet Step()
+        {
+            IntervalSet result = new IntervalSet(scale);
+
+            int i = scale.n - 1;
+            int ones = 0;
+
+            while(intervals[i] && i >=0)
+            {
+                ones++;
+                i--;
+            }
+
+            if(i < 0)
+            {
+                return null;
+            }
+
+            while((i >= 0 && !intervals[i]))
+            {
+                i--;
+            }
+
+            if (i < 0)
+            {
+                return null;
+            }
+
+            int move = i;
+            i--;
+
+            while (i >= 0)
+            {
+                result.intervals[i] = intervals[i];
+                i--;
+            }
+
+            i = move + 1;
+            result.intervals[i] = true;
+            i++;
+
+            while(ones > 0)
+            {
+                result.intervals[i] = true;
+                i++;
+                ones--;
+            }
+            return result;
+        }
+
     }
 }
