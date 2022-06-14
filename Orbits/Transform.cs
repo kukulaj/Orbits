@@ -15,6 +15,11 @@ namespace Orbits
             term = pterm;
         }
 
+        public string Name()
+        {
+            return string.Format(" {0} + {1}*k; ", term, factor);
+        }
+
         public IntervalSet Apply(IntervalSet from)
         {
             IntervalSet result = new IntervalSet(from.scale);

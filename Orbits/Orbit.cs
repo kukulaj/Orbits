@@ -8,6 +8,7 @@ namespace Orbits
     {
         public Dictionary<string, IntervalSet> sets;
         public int ccnt;
+        public Transform polarity;
 
         public Orbit()
         {
@@ -29,6 +30,7 @@ namespace Orbits
                         if (d2.Complement(d3))
                         {
                             ccnt++;
+                            polarity = t;
                         }
                     }
                 }
