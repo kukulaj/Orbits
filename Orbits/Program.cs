@@ -11,7 +11,7 @@ namespace Orbits
 
             List<Orbit> orbits = new List<Orbit>();
 
-            for (int no2 = 6; no2 < 7; no2++)
+            for (int no2 = 36; no2 < 37; no2++)
             {
                 Scale scale = new Scale(2 * no2);
                 TransformSet g = new TransformSet(scale);
@@ -19,8 +19,10 @@ namespace Orbits
 
                 int scnt = 0;
                 int dcnt = 0;
-                while (d != null)
+                int stale = 0;
+                while (stale < 50 && scnt < 10)
                 {
+                    stale++;
                     bool fresh = true;
                     foreach(Orbit old in orbits)
                     {
@@ -33,20 +35,24 @@ namespace Orbits
 
                     if (fresh)
                     {
+                        stale = 0;
                         dcnt++;
                         Orbit o = new Orbit(g, d);
-                        orbits.Add(o);
-                        if (o.ccnt == 1)
+                        //orbits.Add(o);
+                        if (o.polarities.Count == 1)
                         {
-                            Console.WriteLine("polarity of {0} is {1}",
-                                d.Name(),
-                                o.polarity.Name());
+                            Console.Write("polarity of {0} is: ",
+                                d.Name());
+                            foreach(KeyValuePair<string, Transform> kvp in o.polarities)
+                            {
+                                Console.WriteLine(kvp.Key);
+                            }
                             scnt++;
                         }
                     }
                     //Console.WriteLine(string.Format("orbit of {0} has size {1}",
                     //    d.Name(), o.sets.Count));
-                    d = d.Step();
+                    d = d.Randomize(scale.n / 2);
                 }
                 Console.WriteLine(string.Format("scale size {0} has {1}/{2} strong dichotomies",
                     2 * no2, scnt, dcnt)) ;

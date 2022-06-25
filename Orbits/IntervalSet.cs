@@ -8,7 +8,7 @@ namespace Orbits
     {
         public Scale scale;
         public bool[] intervals;
-        
+
         public IntervalSet(Scale pscale)
         {
             scale = pscale;
@@ -16,26 +16,41 @@ namespace Orbits
         }
         public IntervalSet(Scale pscale, int n) : this(pscale)
         {
-           for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 intervals[i] = true;
             }
-           
+
         }
 
         public string Name()
         {
             string result = "{";
-            for(int i = 0; i < scale.n; i++)
+            for (int i = 0; i < scale.n; i++)
             {
-                if(intervals[i])
+                if (intervals[i])
                 {
                     result = result + string.Format(" {0}", i);
                 }
             }
-            return result + " }" ;
+            return result + " }";
         }
 
+        public IntervalSet Randomize(int n)
+        {
+            IntervalSet result = new IntervalSet(scale);
+
+            for (int i = 0; i < n; i++)
+            {
+                int t = scale.rand.Next(scale.n);
+                while (result.intervals[t])
+                {
+                    t = (t + 1) % scale.n;
+                }
+                result.intervals[t] = true;
+            }
+            return result; 
+        }
         public IntervalSet Step()
         {
             IntervalSet result = new IntervalSet(scale);
@@ -49,17 +64,17 @@ namespace Orbits
                 i--;
             }
 
-            if(i < 0)
+            if(i < 1)
             {
                 return null;
             }
 
-            while((i >= 0 && !intervals[i]))
+            while((i >= 1 && !intervals[i]))
             {
                 i--;
             }
 
-            if (i < 0)
+            if (i < 1)
             {
                 return null;
             }
