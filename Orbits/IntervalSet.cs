@@ -114,6 +114,36 @@ namespace Orbits
 
             return true;
         }
+        public Transform Strong(TransformSet g)
+        {
+            Transform result = null;
+            int pcnt = 0;
+            
+            foreach (Transform t2 in g.transforms)
+            {
+                        IntervalSet set2 = t2.Apply(this);
+
+                if (Complement(set2))
+                {
+                    pcnt++;
+                    result = t2;
+                }
+            }
+
+            if (pcnt == 1)
+            {
+                Console.WriteLine(string.Format("polarity of {0}: {1}",
+                    Name(),
+                    result.Name()));
+                return result;
+            }
+
+            return null;
+        }
+
+ 
+            
+    
 
     }
 }

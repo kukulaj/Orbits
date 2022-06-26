@@ -11,7 +11,7 @@ namespace Orbits
 
             List<Orbit> orbits = new List<Orbit>();
 
-            for (int no2 = 7; no2 < 8; no2++)
+            for (int no2 = 36; no2 < 37; no2++)
             {
                 Scale scale = new Scale(2 * no2);
                 TransformSet g = new TransformSet(scale);
@@ -37,10 +37,14 @@ namespace Orbits
                     {
                         stale = 0;
                         dcnt++;
-                        Console.WriteLine(string.Format("check {0}",
-                           d.Name()));
-                        Orbit o = new Orbit(g, d);
-                        orbits.Add(o);
+                        //Console.WriteLine(string.Format("check {0}", d.Name()));
+                        //Orbit o = new Orbit(g, d);
+                        //orbits.Add(o);
+
+                        if(d.Strong(g) != null)
+                        {
+                            scnt++;
+                        }
                        
                     }
                     //Console.WriteLine(string.Format("orbit of {0} has size {1}",
