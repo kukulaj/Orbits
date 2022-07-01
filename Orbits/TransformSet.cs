@@ -32,10 +32,23 @@ namespace Orbits
                         if ((factor * factor) % scale.n == 1
                             && ((factor + 1) * term) % scale.n == 0)
                         {
-                            pcnt++;
-                            //Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
                             Transform t = new Transform(scale, factor, term);
-                            transforms.Add(t);
+                            bool nfp = true;
+                            for(int i = 0; nfp && i<scale.n; i++)
+                            {
+                                if(i == t.Apply(i))
+                                {
+                                    nfp = false;
+                                }
+                            }
+
+                            if (nfp)
+                            {
+                                pcnt++;
+                                //Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
+
+                                transforms.Add(t);
+                            }
                         }
                     }
                 }

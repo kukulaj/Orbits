@@ -25,17 +25,23 @@ namespace Orbits
 
         public IntervalSet(Scale pscale, Transform p) : this(pscale)
         {
+            Console.Write("build dichotomy with ");
+            Console.WriteLine(p.Name());
+
+            IntervalSet complement = new IntervalSet(scale);
+
             bool found = true;
-            while(found)
+           
+            while (found)
             {
                 found = false;
 
                 int look = scale.rand.Next(scale.n);
-                int looked = 0;
+                int looked = 0; 
                 while(!found && looked < scale.n)
                 {
-                    int clook = p.Apply(look);
-                    if(!intervals[look] && !intervals[clook])
+                     
+                    if(!intervals[look] && !complement.intervals[look])
                     {
                         found = true;
                     }
@@ -49,11 +55,35 @@ namespace Orbits
                 if(found)
                 {
                     intervals[look] = true;
+                    complement.intervals[p.Apply(look)] = true;
                 }
+            }
+
+            int ocnt = OnCount();
+            if (ocnt != scale.n / 2)
+            {
+                Console.WriteLine("on count error");
+            }
+
+            IntervalSet set2 = p.Apply(this);
+            if (!Complement(set2))
+            {
+                Console.WriteLine("oops");
             }
         }
 
-
+        public int OnCount()
+        {
+            int cnt = 0;
+            for (int i = 0; i < scale.n; i++)
+            {
+                if (intervals[i])
+                {
+                    cnt++;
+                }
+            }
+            return cnt;
+        }
         public string Name()
         {
             string result = "{";
@@ -133,17 +163,18 @@ namespace Orbits
         }
 
         public bool Complement(IntervalSet other)
-        { 
+        {
+            bool result = true;
             for (int i = 0; i < scale.n; i++)
             {
                 if(intervals[i] == other.intervals[i])
                 {
-                    return false;
+                    result =  false;
                 }
 
             }
 
-            return true;
+            return result;
         }
         public Transform Strong(TransformSet g)
         {
@@ -160,6 +191,7 @@ namespace Orbits
                     result = t2;
                 }
             }
+            Console.WriteLine(string.Format("{0} polarity functions", pcnt));
 
             if (pcnt == 1)
             {
