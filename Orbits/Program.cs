@@ -9,21 +9,24 @@ namespace Orbits
         {
             Console.WriteLine("Hello World!");
 
-            List<Orbit> orbits = new List<Orbit>();
+            
 
-            for (int no2 = 36; no2 < 37; no2++)
+            for (int no2 = 4; no2 < 37; no2++)
             {
+                List<Orbit> orbits = new List<Orbit>();
                 Scale scale = new Scale(2 * no2);
-                TransformSet g = new TransformSet(scale);
-                Transform p = g.transforms[scale.rand.Next(g.transforms.Count)];
+                TransformSet gf = new TransformSet(scale, true);
+                TransformSet gp = new TransformSet(scale, false);
+                Transform p = gp.transforms[scale.rand.Next(gp.transforms.Count)];
                 IntervalSet d = new IntervalSet(scale, p);
 
                 int scnt = 0;
                 int dcnt = 0;
                 int stale = 0;
-                while (stale < 50 && scnt < 10)
+                while (stale < 5000 && orbits.Count < 50000)
                 {
-                    stale++;
+                    
+                        stale++;
                     bool fresh = true;
                     foreach(Orbit old in orbits)
                     {
@@ -36,25 +39,27 @@ namespace Orbits
 
                     if (fresh)
                     {
-                        stale = 0;
+                       
                         dcnt++;
                         //Console.WriteLine(string.Format("check {0}", d.Name()));
-                        //Orbit o = new Orbit(g, d);
-                        //orbits.Add(o);
+                        
 
-                        if(d.Strong(g) != null)
+                        if(d.Strong(gp) != null)
                         {
+                            stale = 0;
+                            Orbit o = new Orbit(gf, d);
+                            orbits.Add(o);
                             scnt++;
                         }
                        
                     }
                     //Console.WriteLine(string.Format("orbit of {0} has size {1}",
                     //    d.Name(), o.sets.Count));
-                    p = g.transforms[scale.rand.Next(g.transforms.Count)];
+                    p = gp.transforms[scale.rand.Next(gp.transforms.Count)];
                     d = new IntervalSet(scale, p);
                 }
-                Console.WriteLine(string.Format("scale size {0} has {1}/{2} strong dichotomies",
-                    2 * no2, scnt, dcnt)) ;
+                Console.WriteLine(string.Format("scale size {0} has {1} strong dichotomy classes",
+                    2 * no2, orbits.Count)) ;
             }
             Console.WriteLine("Goodbye World!");
         }

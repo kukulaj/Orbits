@@ -19,11 +19,8 @@ namespace Orbits
             {
                 IntervalSet d2 = t.Apply(d);
                 bool unique = Add(d2);
-                if (unique)
-                {
-                    Transform p = d2.Strong(g);
-                }
             }
+            //Console.WriteLine(string.Format("{0} interval sets in orbit", sets.Count));
         }
        
         

@@ -25,8 +25,8 @@ namespace Orbits
 
         public IntervalSet(Scale pscale, Transform p) : this(pscale)
         {
-            Console.Write("build dichotomy with ");
-            Console.WriteLine(p.Name());
+          // Console.Write("build dichotomy with ");
+          //  Console.WriteLine(p.Name());
 
             IntervalSet complement = new IntervalSet(scale);
 
@@ -191,13 +191,13 @@ namespace Orbits
                     result = t2;
                 }
             }
-            Console.WriteLine(string.Format("{0} polarity functions", pcnt));
+            //Console.WriteLine(string.Format("{0} polarity functions", pcnt));
 
             if (pcnt == 1)
             {
-                Console.WriteLine(string.Format("polarity of {0}: {1}",
-                    Name(),
-                    result.Name()));
+                //Console.WriteLine(string.Format("polarity of {0}: {1}",
+               //     Name(),
+                //    result.Name()));
                 return result;
             }
 

@@ -9,7 +9,7 @@ namespace Orbits
         public List<Transform> transforms;
 
         public Scale scale;
-        public TransformSet(Scale pscale)
+        public TransformSet(Scale pscale, bool full)
         {
             transforms = new List<Transform>();
             scale = pscale;
@@ -28,35 +28,40 @@ namespace Orbits
                         // t + f * (t + f * k)) = (t+1)*f + f*f*k
                         // so f*f mod n = 1
                         // (f+1)*t mod n = 0
-
-                        if ((factor * factor) % scale.n == 1
-                            && ((factor + 1) * term) % scale.n == 0)
+                        Transform t = new Transform(scale, factor, term);
+                        if (full)
                         {
-                            Transform t = new Transform(scale, factor, term);
-                            bool nfp = true;
-                            for(int i = 0; nfp && i<scale.n; i++)
+                            transforms.Add(t);
+                        }
+                        else
+                        {
+                            if ((factor * factor) % scale.n == 1
+                                && ((factor + 1) * term) % scale.n == 0)
                             {
-                                if(i == t.Apply(i))
+
+                                bool nfp = true;
+                                for (int i = 0; nfp && i < scale.n; i++)
                                 {
-                                    nfp = false;
+                                    if (i == t.Apply(i))
+                                    {
+                                        nfp = false;
+                                    }
                                 }
-                            }
 
-                            if (nfp)
-                            {
-                                pcnt++;
-                                //Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
+                                if (nfp)
+                                {
+                                    pcnt++;
+                                   // Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
 
-                                transforms.Add(t);
+                                    transforms.Add(t);
+                                }
                             }
                         }
                     }
                 }
             }
 
-            Console.WriteLine(string.Format(
-                "group with {0} elements has {1} possible polarity functions",
-                gcnt, pcnt));
+            Console.WriteLine(string.Format("{0} transforms in set", transforms.Count));
         }
 
         static int GCD(int a, int b)
