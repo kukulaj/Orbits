@@ -8,9 +8,11 @@ namespace Orbits
     {
         public int factor;
         public int term;
+        public Scale scale;
 
-        public Transform(int pfactor, int pterm)
+        public Transform(Scale pscale,  int pfactor, int pterm)
         {
+            scale = pscale;
             factor = pfactor;
             term = pterm;
         }
@@ -27,11 +29,16 @@ namespace Orbits
             {
                 if (from.intervals[i])
                 {
-                    result.intervals[(term + factor * i) % from.scale.n] = true;
+                    result.intervals[Apply(i)] = true;
                 }
             }
 
             return result;
+        }
+
+        public int Apply(int from)
+        {
+            return (term + factor * from) % scale.n;
         }
     }
 }

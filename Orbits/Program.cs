@@ -15,7 +15,8 @@ namespace Orbits
             {
                 Scale scale = new Scale(2 * no2);
                 TransformSet g = new TransformSet(scale);
-                IntervalSet d = new IntervalSet(scale, scale.n / 2);
+                Transform p = g.transforms[scale.rand.Next(g.transforms.Count)];
+                IntervalSet d = new IntervalSet(scale, p);
 
                 int scnt = 0;
                 int dcnt = 0;
@@ -49,7 +50,8 @@ namespace Orbits
                     }
                     //Console.WriteLine(string.Format("orbit of {0} has size {1}",
                     //    d.Name(), o.sets.Count));
-                    d = d.Randomize(scale.n / 2);
+                    p = g.transforms[scale.rand.Next(g.transforms.Count)];
+                    d = new IntervalSet(scale, p);
                 }
                 Console.WriteLine(string.Format("scale size {0} has {1}/{2} strong dichotomies",
                     2 * no2, scnt, dcnt)) ;

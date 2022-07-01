@@ -34,7 +34,7 @@ namespace Orbits
                         {
                             pcnt++;
                             //Console.WriteLine(string.Format("{0} + {1} * k", term, factor));
-                            Transform t = new Transform(factor, term);
+                            Transform t = new Transform(scale, factor, term);
                             transforms.Add(t);
                         }
                     }

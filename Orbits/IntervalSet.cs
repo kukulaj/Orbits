@@ -23,6 +23,37 @@ namespace Orbits
 
         }
 
+        public IntervalSet(Scale pscale, Transform p) : this(pscale)
+        {
+            bool found = true;
+            while(found)
+            {
+                found = false;
+
+                int look = scale.rand.Next(scale.n);
+                int looked = 0;
+                while(!found && looked < scale.n)
+                {
+                    int clook = p.Apply(look);
+                    if(!intervals[look] && !intervals[clook])
+                    {
+                        found = true;
+                    }
+                    else 
+                    {
+                        looked++;
+                        look = (look + 1) % scale.n;
+                    }
+                }
+
+                if(found)
+                {
+                    intervals[look] = true;
+                }
+            }
+        }
+
+
         public string Name()
         {
             string result = "{";
